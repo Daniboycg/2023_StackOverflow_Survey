@@ -1,0 +1,23 @@
+name: DS
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - jupyter
+  - ipython
+  - tensorflow
+  - keras
+  - xgboost
+  - lightgbm
+  - catboost
+  - beautifulsoup4
+  - ipykernel
+  - black
+
