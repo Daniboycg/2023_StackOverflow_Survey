@@ -84,6 +84,17 @@ df3["WorkedLibraries"].value_counts()
 """ I would like to keep these 3 columns, but they have too many missing values
     and are too messy. I think the algortithm will infer a little bit of this information
     from the 'CurrentJob' column, so I will drop them."""
-df3 = df3.drop(
+df4 = df3.drop(
     ["WorkedPlatform", "WorkedFramework", "WorkedLibraries"], axis="columns"
 ).copy()
+
+df4.info()
+
+""" To predict a worker's salary, these seems to be the most important features.
+    """
+
+df4["z_UsingAI"].value_counts()
+df4["z_UsingAI"] = df4["z_UsingAI"].apply(lambda x: 1 if x == "Yes" else 0)
+
+len(df4["EdLevel"].unique())
+df4["EdLevel"].value_counts()
