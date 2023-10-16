@@ -98,3 +98,48 @@ df4["z_UsingAI"] = df4["z_UsingAI"].apply(lambda x: 1 if x == "Yes" else 0)
 
 len(df4["EdLevel"].unique())
 df4["EdLevel"].value_counts()
+df4.tail()
+df4.reset_index(drop=True, inplace=True)
+
+df4.isna().sum()
+
+df4["OSProffesional"].fillna(df4["OSPersonal"], inplace=True)
+df4.drop("OSPersonal", axis=1, inplace=True)
+
+df["WorkedCollabTools"].value_counts()
+# This column is too messy, the most is VSCode, I don't think it will be useful
+
+df4.drop("WorkedCollabTools", axis=1, inplace=True)
+
+df4["WorkedDatabase"].value_counts().nlargest(10)
+
+df5 = df4.copy()
+
+""" I have some options: Drop the 6255 nan values or fill them with the most common value.
+    But, I don't think in real life, the database and the tools you work it's going to be a 
+    good predictor. Instead of the language you work with. In this case, SQL could be a really good factor"""
+
+df5.drop(["WorkedDatabase", "WorkedTools"], axis=1, inplace=True)
+
+df5.isna().sum()
+df5.dropna(inplace=True)
+df5.info()
+
+# Remove YearlySalary outliers by the IQR method
+df5.describe()
+Q1 = df5["YearlySalary"].quantile(0.25)
+Q3 = df5["YearlySalary"].quantile(0.75)
+IQR = Q3 - Q1
+df5 = df5[
+    ~(
+        (df5["YearlySalary"] < (Q1 - 1.5 * IQR))
+        | (df5["YearlySalary"] > (Q3 + 1.5 * IQR))
+    )
+]
+
+
+df5.reset_index(drop=True, inplace=True)
+# Good, we dealed with all the missing values and have really good amount of data.
+# But, we still have make some feature Engineering, but I will do this in the features folder.
+
+pd.to_pickle(df5, "../../data/interim/YearlySalary_model_p1.pkl")
